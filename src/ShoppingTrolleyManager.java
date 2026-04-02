@@ -1,22 +1,21 @@
 import com.trolley.Store;
 import com.trolley.Trolley;
 import com.trolley.gui.UserMessageProcessor;
-import com.trolley.items.Item;
 
-private class Main {
+public class ShoppingTrolleyManager {
     private Store store;
 
-    private Main(Store store) {
+    private ShoppingTrolleyManager(Store store) {
         this.store = store;
     }
 
     private void runShoppingTrolley() {
         Trolley trolley = new Trolley();
-        UserMessageProcessor userMessageProcessor = new UserMessageProcessor();
+
+        UserMessageProcessor userMessageProcessor = new UserMessageProcessor(store, trolley);
+        Thread userMessageProcessorThread = new Thread(userMessageProcessor);
         try {
-            while (true) {
-                userMessageProcessor.askForCommand();
-            }
+            userMessageProcessor.run();
         }
         catch (Exception exception) {
             if (exception.getMessage() != null)
@@ -30,8 +29,8 @@ private class Main {
     }
 
     public static void main(String[] args) {
-        Main main = new Main(new Store());
-        main.runShoppingTrolley();
+        ShoppingTrolleyManager shoppingTrolleyManager = new ShoppingTrolleyManager(new Store());
+        shoppingTrolleyManager.runShoppingTrolley();
     }
 }
 

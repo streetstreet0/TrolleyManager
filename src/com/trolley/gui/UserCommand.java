@@ -11,6 +11,10 @@ public enum UserCommand {
     DISPLAY_TROLLEY,
     CHECKOUT;
 
+    public String displayMessage() {
+        return userInput() + ": " + description();
+    }
+
     public String description() {
         return switch (this) {
             case ADD_ITEM -> "add item to trolley";

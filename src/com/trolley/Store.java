@@ -9,8 +9,11 @@ public class Store {
     private HashMap<String, Item> availableItems;
 
     public Store () {
+        availableItems = new HashMap<String, Item>();
         Item[] defaultItems = defaultItems();
-        this(defaultItems);
+        for (Item item : defaultItems) {
+            addAvailableItem(item);
+        }
     }
 
     public Store (Item[] availableItems) {
@@ -18,6 +21,14 @@ public class Store {
         for (Item item : availableItems) {
             addAvailableItem(item);
         }
+    }
+
+    public String displayStoreItems() {
+        String storeItemDisplay = "Items:\n";
+        for (Item item : availableItems.values()) {
+            storeItemDisplay = "  " + item.getDisplayInfo();
+        }
+        return storeItemDisplay;
     }
 
     public boolean hasItem(String itemName) {

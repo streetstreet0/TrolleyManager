@@ -1,32 +1,35 @@
 package com.trolley.gui;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.util.Scanner;
 
 class TerminalUserInterface implements UserInterface {
-    private Scanner scanner;
-    private OutputStreamWriter writer;
-    private UserMessageProcessor messageProcessor;
+    private final Scanner scanner;
 
     TerminalUserInterface() {
-        this(System.in, System.out);
+        scanner = new Scanner(System.in);
     }
 
-    TerminalUserInterface(InputStream inputStream, OutputStream outputStream) {
-        scanner = new Scanner(inputStream);
-        writer = new OutputStreamWriter(outputStream);
-        messageProcessor = new UserMessageProcessor(this);
+    public void close() {
+        scanner.close();
     }
 
-    @Override
-    public String askForAddItemArg() {
-        return "";
+    private void println(String string) {
+        System.out.println(string);
     }
 
     @Override
-    public String askForRemoveItemArg() {
-        return "";
+    public String askQuestion(String question) throws IOException {
+        println(question);
+        return scanner.nextLine();
     }
+
+    @Override
+    public void tellUser(String message) {
+        println(message);
+    }
+
 }

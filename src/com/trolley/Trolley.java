@@ -14,6 +14,10 @@ public class Trolley {
         items = new Stack<TrolleyItem>();
     }
 
+    public boolean hasItems() {
+        return !items.isEmpty();
+    }
+
     public void addItem(String itemName) throws ItemNotFoundException {
         store.checkItemIsAvailable(itemName);
 
