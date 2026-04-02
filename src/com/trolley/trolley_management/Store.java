@@ -1,20 +1,12 @@
-package com.trolley;
+package com.trolley.trolley_management;
 
-import com.trolley.exceptions.ItemNotFoundException;
-import com.trolley.items.Item;
+import com.trolley.trolley_management.exceptions.ItemNotFoundException;
+import com.trolley.trolley_management.items.Item;
 
 import java.util.HashMap;
 
 public class Store {
     private HashMap<String, Item> availableItems;
-
-    public Store () {
-        availableItems = new HashMap<String, Item>();
-        Item[] defaultItems = defaultItems();
-        for (Item item : defaultItems) {
-            addAvailableItem(item);
-        }
-    }
 
     public Store (Item[] availableItems) {
         this.availableItems = new HashMap<String, Item>();
@@ -24,11 +16,11 @@ public class Store {
     }
 
     public String displayStoreItems() {
-        String storeItemDisplay = "Items:\n";
+        StringBuilder storeItemDisplay = new StringBuilder("Items:\n");
         for (Item item : availableItems.values()) {
-            storeItemDisplay = "  " + item.getDisplayInfo();
+            storeItemDisplay.append("  ").append(item.getDisplayInfo()).append("\n");
         }
-        return storeItemDisplay;
+        return storeItemDisplay.toString();
     }
 
     public boolean hasItem(String itemName) {
@@ -46,11 +38,15 @@ public class Store {
         return availableItems.get(itemName);
     }
 
+    public static Store constructDefaultStore() {
+        return new Store(defaultItems());
+    }
+
     private static Item[] defaultItems() {
         Item[] defaultItems = new Item[3];
         defaultItems[0] = new Item("item1", 12, 3);
         defaultItems[1] = new Item("item2", 6, 7);
-        defaultItems[2] = new Item("item2", 7.5, 12.99F);
+        defaultItems[2] = new Item("item3", 7.5, 12.99);
         return defaultItems;
     }
 

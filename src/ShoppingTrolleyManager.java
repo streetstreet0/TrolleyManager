@@ -1,5 +1,5 @@
-import com.trolley.Store;
-import com.trolley.Trolley;
+import com.trolley.trolley_management.Store;
+import com.trolley.trolley_management.Trolley;
 import com.trolley.gui.UserMessageProcessor;
 
 public class ShoppingTrolleyManager {
@@ -10,7 +10,7 @@ public class ShoppingTrolleyManager {
     }
 
     private void runShoppingTrolley() {
-        Trolley trolley = new Trolley();
+        Trolley trolley = new Trolley(store);
 
         UserMessageProcessor userMessageProcessor = new UserMessageProcessor(store, trolley);
         Thread userMessageProcessorThread = new Thread(userMessageProcessor);
@@ -29,7 +29,7 @@ public class ShoppingTrolleyManager {
     }
 
     public static void main(String[] args) {
-        ShoppingTrolleyManager shoppingTrolleyManager = new ShoppingTrolleyManager(new Store());
+        ShoppingTrolleyManager shoppingTrolleyManager = new ShoppingTrolleyManager(Store.constructDefaultStore());
         shoppingTrolleyManager.runShoppingTrolley();
     }
 }

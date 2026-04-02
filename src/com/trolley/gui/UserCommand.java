@@ -1,6 +1,6 @@
 package com.trolley.gui;
 
-import com.trolley.exceptions.UnknownCommandException;
+import com.trolley.gui.exceptions.UnknownCommandException;
 
 public enum UserCommand {
     ADD_ITEM,
@@ -9,7 +9,8 @@ public enum UserCommand {
     CANCEL_SORT,
     CLEAR_TROLLEY,
     DISPLAY_TROLLEY,
-    CHECKOUT;
+    CHECKOUT,
+    QUIT;
 
     public String displayMessage() {
         return userInput() + ": " + description();
@@ -24,6 +25,7 @@ public enum UserCommand {
             case CLEAR_TROLLEY -> "clear the trolley";
             case CHECKOUT -> "checkout and display the trolley";
             case DISPLAY_TROLLEY -> "display the trolley contents and running totals";
+            case QUIT -> "quit without checking out";
         };
     }
 
@@ -36,11 +38,13 @@ public enum UserCommand {
             case CLEAR_TROLLEY -> "CLEAR";
             case CHECKOUT -> "CHECKOUT";
             case DISPLAY_TROLLEY -> "DISPLAY";
+            case QUIT -> "QUIT";
         };
     }
 
     public static UserCommand getUserCommand(String userInput) throws UnknownCommandException {
-        return switch (userInput) {
+        String upCasedUserInput = userInput.trim().toUpperCase();
+        return switch (upCasedUserInput) {
             case "ADD" -> ADD_ITEM;
             case "REMOVE" -> REMOVE_ITEM;
             case "SORT" -> SORT_TROLLEY;
@@ -48,6 +52,7 @@ public enum UserCommand {
             case "CLEAR" -> CLEAR_TROLLEY;
             case "CHECKOUT" -> CHECKOUT;
             case "DISPLAY" -> DISPLAY_TROLLEY;
+            case "QUIT" -> QUIT;
             default -> throw new UnknownCommandException(userInput);
         };
     }

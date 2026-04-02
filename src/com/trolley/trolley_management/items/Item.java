@@ -1,11 +1,11 @@
-package com.trolley.items;
+package com.trolley.trolley_management.items;
 
 public class Item {
     private String name;
     private double weight;
-    private float price;
+    private double price;
 
-    public Item (String name, double weight, float price) {
+    public Item (String name, double weight, double price) {
         this.name = name;
         this.weight = weight;
         this.price = price;
@@ -19,7 +19,7 @@ public class Item {
         return weight;
     }
 
-    public float getPrice() {
+    public double getPrice() {
         return price;
     }
 

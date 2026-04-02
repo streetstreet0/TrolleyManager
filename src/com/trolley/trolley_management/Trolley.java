@@ -1,0 +1,94 @@
+package com.trolley.trolley_management;
+
+import com.trolley.trolley_management.exceptions.ItemNotFoundException;
+import com.trolley.trolley_management.exceptions.ItemNotInTrolleyException;
+import com.trolley.trolley_management.exceptions.NotEnoughItemsInTrolleyException;
+import com.trolley.trolley_management.items.TrolleyItem;
+
+import java.util.Stack;
+
+public class Trolley {
+    Store store;
+    Stack<TrolleyItem> items;
+
+    public Trolley(Store store) {
+        this.store = store;
+        items = new Stack<TrolleyItem>();
+    }
+
+    public boolean hasItems() {
+        return !items.isEmpty();
+    }
+
+    public void checkItemInTrolley(String itemName) throws ItemNotInTrolleyException {
+        for (TrolleyItem item : items) {
+            if (item.isItem(itemName)) {
+                return;
+            }
+        }
+        throw new ItemNotInTrolleyException(itemName);
+    }
+
+    public void addItem(String itemName) throws ItemNotFoundException {
+        addItem(itemName, 1);
+    }
+
+    public void addItem(String itemName, int quantity) throws ItemNotFoundException {
+        store.checkItemIsAvailable(itemName);
+
+        for (TrolleyItem item : items) {
+            if (item.isItem(itemName)) {
+                item.addItems(quantity);
+                return;
+            }
+        }
+
+        items.add(new TrolleyItem(store.getItem(itemName), quantity));
+    }
+
+    public void removeItem(String itemName) throws ItemNotFoundException, ItemNotInTrolleyException, NotEnoughItemsInTrolleyException {
+        removeItem(itemName, 1);
+    }
+
+    public void removeItem(String itemName, int quantity) throws ItemNotFoundException, ItemNotInTrolleyException, NotEnoughItemsInTrolleyException {
+        store.checkItemIsAvailable(itemName);
+
+        for (TrolleyItem item : items) {
+            if (item.isItem(itemName)) {
+                item.removeItems(quantity);
+                if (item.hasNone()) {
+                    items.remove(item);
+                }
+                return;
+            }
+        }
+        throw new ItemNotInTrolleyException(itemName);
+    }
+
+    public void clearTrolley() {
+        items.clear();
+    }
+
+    public String displayItemsWithQuantity() {
+        StringBuilder trolleyItemDisplay = new StringBuilder("Items:\n");
+        for (TrolleyItem item : items) {
+            trolleyItemDisplay.append("  ").append(item.itemWithQuantityString()).append("\n");
+        }
+        return trolleyItemDisplay.toString();
+    }
+
+    public String displayTrolley() {
+        StringBuilder trolleyItemDisplay = new StringBuilder("Items:\n");
+        double runningPrice = 0;
+        double runningWeight = 0;
+        for (TrolleyItem item : items) {
+            trolleyItemDisplay.append("  ").append(item.itemFullDisplayString()).append("\n");
+            runningPrice += item.getRunningPrice();
+            runningWeight += item.getRunningWeight();
+        }
+        trolleyItemDisplay.append(String.format("Total price: $%.2f\n", runningPrice));
+        trolleyItemDisplay.append(String.format("Total weight: %.2fg\n", runningWeight));
+        return trolleyItemDisplay.toString();
+    }
+
+}
