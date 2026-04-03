@@ -87,7 +87,10 @@ public class Trolley {
             runningWeight += item.getRunningWeight();
         }
         trolleyItemDisplay.append(String.format("Total price: $%.2f\n", runningPrice));
-        trolleyItemDisplay.append(String.format("Total weight: %.2fg\n", runningWeight));
+        if (runningWeight > 1000)
+            trolleyItemDisplay.append(String.format("Total weight: %.2fkg\n", runningWeight/1000));
+        else
+            trolleyItemDisplay.append(String.format("Total weight: %.2fg\n", runningWeight));
         return trolleyItemDisplay.toString();
     }
 

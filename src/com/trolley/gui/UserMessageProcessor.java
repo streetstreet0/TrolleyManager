@@ -154,6 +154,7 @@ public class UserMessageProcessor implements Runnable {
                 ui.tellUser(itemNotFoundException.getMessage());
             }
         }
+        displayTrolley();
     }
 
     private void removeItem() throws IOException {
@@ -185,23 +186,27 @@ public class UserMessageProcessor implements Runnable {
         catch (TrolleyManagementException trolleyManagementException) {
             ui.tellUser(trolleyManagementException.getMessage());
         }
+        displayTrolley();
     }
 
     private void displayTrolley() {
         ui.tellUser(trolley.displayTrolley());
     }
 
+    /*
     private void sortTrolley() {
     }
 
     private void cancelSort() {
     }
+     */
 
     private void clearTrolley() {
         ui.tellUser("emptying trolley...");
         trolley.clearTrolley();
         ui.tellUser(trolley.displayTrolley());
         ui.tellUser("trolley emptied successfully");
+        displayTrolley();
     }
 
     private void checkout() {

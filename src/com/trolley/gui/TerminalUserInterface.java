@@ -24,7 +24,7 @@ class TerminalUserInterface implements UserInterface {
     @Override
     public String askQuestion(String question) throws IOException {
         println(question);
-        return scanner.nextLine();
+        return scanner.nextLine().trim();
     }
 
     @Override
