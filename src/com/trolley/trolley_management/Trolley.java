@@ -71,7 +71,8 @@ public class Trolley {
 
     public String displayItemsWithQuantity() {
         StringBuilder trolleyItemDisplay = new StringBuilder("Items:\n");
-        for (TrolleyItem item : items) {
+        for (int i = items.size()-1; i >= 0; i--) {
+            TrolleyItem item = items.get(i);
             trolleyItemDisplay.append("  ").append(item.itemWithQuantityString()).append("\n");
         }
         return trolleyItemDisplay.toString();
@@ -81,7 +82,8 @@ public class Trolley {
         StringBuilder trolleyItemDisplay = new StringBuilder("Items:\n");
         double runningPrice = 0;
         double runningWeight = 0;
-        for (TrolleyItem item : items) {
+        for (int i = items.size()-1; i >= 0; i--) {
+            TrolleyItem item = items.get(i);
             trolleyItemDisplay.append("  ").append(item.itemFullDisplayString()).append("\n");
             runningPrice += item.getRunningPrice();
             runningWeight += item.getRunningWeight();
