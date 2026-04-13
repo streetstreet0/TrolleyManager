@@ -15,7 +15,8 @@ public class ShoppingTrolleyManager {
         UserMessageProcessor userMessageProcessor = new UserMessageProcessor(store, trolley);
         Thread userMessageProcessorThread = new Thread(userMessageProcessor);
         try {
-            userMessageProcessor.run();
+            userMessageProcessorThread.start();
+            userMessageProcessorThread.join();
         }
         catch (Exception exception) {
             if (exception.getMessage() != null)

@@ -8,8 +8,8 @@ import com.trolley.trolley_management.items.TrolleyItem;
 import java.util.Stack;
 
 public class Trolley {
-    Store store;
-    Stack<TrolleyItem> items;
+    private final Store store;
+    private final Stack<TrolleyItem> items;
 
     public Trolley(Store store) {
         this.store = store;
@@ -71,8 +71,7 @@ public class Trolley {
 
     public String displayItemsWithQuantity() {
         StringBuilder trolleyItemDisplay = new StringBuilder("Items:\n");
-        for (int i = items.size()-1; i >= 0; i--) {
-            TrolleyItem item = items.get(i);
+        for (TrolleyItem item : items) {
             trolleyItemDisplay.append("  ").append(item.itemWithQuantityString()).append("\n");
         }
         return trolleyItemDisplay.toString();
@@ -82,18 +81,36 @@ public class Trolley {
         StringBuilder trolleyItemDisplay = new StringBuilder("Items:\n");
         double runningPrice = 0;
         double runningWeight = 0;
+        for (TrolleyItem item : items) {
+            trolleyItemDisplay.append("  ").append(item.itemFullDisplayString()).append("\n");
+            runningPrice += item.getRunningPrice();
+            runningWeight += item.getRunningWeight();
+        }
+        trolleyItemDisplay.append(runningTotalsDisplay(runningPrice, runningWeight));
+        return trolleyItemDisplay.toString();
+    }
+
+    public String finalDisplayTrolley() {
+        StringBuilder trolleyItemDisplay = new StringBuilder("Items:\n");
+        double runningPrice = 0;
+        double runningWeight = 0;
         for (int i = items.size()-1; i >= 0; i--) {
             TrolleyItem item = items.get(i);
             trolleyItemDisplay.append("  ").append(item.itemFullDisplayString()).append("\n");
             runningPrice += item.getRunningPrice();
             runningWeight += item.getRunningWeight();
         }
-        trolleyItemDisplay.append(String.format("Total price: $%.2f\n", runningPrice));
-        if (runningWeight > 1000)
-            trolleyItemDisplay.append(String.format("Total weight: %.2fkg\n", runningWeight/1000));
-        else
-            trolleyItemDisplay.append(String.format("Total weight: %.2fg\n", runningWeight));
+        trolleyItemDisplay.append(runningTotalsDisplay(runningPrice, runningWeight));
         return trolleyItemDisplay.toString();
     }
 
+    private String runningTotalsDisplay(double runningPrice, double runningWeight) {
+        StringBuilder runningTotalsDisplay = new StringBuilder();
+        runningTotalsDisplay.append(String.format("Total price: $%.2f\n", runningPrice));
+        if (runningWeight > 1000)
+            runningTotalsDisplay.append(String.format("Total weight: %.2fkg\n", runningWeight/1000));
+        else
+            runningTotalsDisplay.append(String.format("Total weight: %.2fg\n", runningWeight));
+        return runningTotalsDisplay.toString();
+    }
 }

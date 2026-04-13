@@ -52,9 +52,9 @@ public class TrolleyItem {
     public void removeItems(int removeQuantity) throws NotEnoughItemsInTrolleyException {
         if (removeQuantity > quantity)
             throw new NotEnoughItemsInTrolleyException(item.getName(), removeQuantity);
-        quantity =- removeQuantity;
-        runningWeight =- (item.getWeight() * removeQuantity);
-        runningPrice =- (item.getPrice() * removeQuantity);
+        quantity -= removeQuantity;
+        runningWeight -= (item.getWeight() * removeQuantity);
+        runningPrice -= (item.getPrice() * removeQuantity);
     }
 
     public boolean hasNone() {
