@@ -26,4 +26,8 @@ public class Item {
     public String getDisplayInfo() {
         return name + ": $" + price + ", " + weight + "g";
     }
+
+    public Item copyItem() {
+        return new Item(name, weight, price);
+    }
 }

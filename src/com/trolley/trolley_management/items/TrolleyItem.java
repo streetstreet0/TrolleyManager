@@ -13,7 +13,7 @@ public class TrolleyItem {
     }
 
     public TrolleyItem(Item item, int quantity) {
-        this.item = item;
+        this.item = item.copyItem();
         this.quantity = quantity;
         runningPrice = item.getPrice() * quantity;
         runningWeight = item.getWeight() * quantity;

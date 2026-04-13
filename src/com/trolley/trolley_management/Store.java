@@ -3,15 +3,17 @@ package com.trolley.trolley_management;
 import com.trolley.trolley_management.exceptions.ItemNotFoundException;
 import com.trolley.trolley_management.items.Item;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 
 public class Store {
-    private HashMap<String, Item> availableItems;
+    private final HashMap<String, Item> availableItems;
 
     public Store (Item[] availableItems) {
         this.availableItems = new HashMap<String, Item>();
         for (Item item : availableItems) {
-            addAvailableItem(item);
+            addAvailableItem(item.copyItem());
         }
     }
 

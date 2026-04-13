@@ -38,6 +38,7 @@ public class UserMessageProcessor implements Runnable {
             }
         }
         catch (IOException ioException) {
+            ui.tellUser("an unexpected error occured: " + ioException.getMessage());
             System.out.println(ioException.getMessage());
         }
         finally {
@@ -77,11 +78,11 @@ public class UserMessageProcessor implements Runnable {
             processCommand(userCommand);
         }
         catch (UnknownCommandException | UnavailableCommandException commandException) {
-            System.out.println(commandException.getMessage());
+            ui.tellUser(commandException.getMessage());
         }
     }
 
-    private void processCommand(UserCommand userCommand) throws UnknownCommandException, IOException {
+    private void processCommand(UserCommand userCommand) throws IOException, UnknownCommandException {
         switch (userCommand) {
             case UserCommand.ADD_ITEM:
                 addItem();
@@ -112,7 +113,8 @@ public class UserMessageProcessor implements Runnable {
                 break;
             default:
                 throw new UnknownCommandException(userCommand.name());
-        }
+            }
+
     }
 
     private void addItem() throws IOException {
@@ -211,7 +213,7 @@ public class UserMessageProcessor implements Runnable {
 
     private void checkout() {
         ui.tellUser("Your final trolley was:");
-        displayTrolley();
+        ui.tellUser(trolley.finalDisplayTrolley());
         ui.tellUser("Checking out...");
         running = false;
     }
